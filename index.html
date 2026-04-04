@@ -89,7 +89,7 @@
   <option value="Competitive">Competitive</option>
 </select>
 
-    <button onclick="getRecommendation()">Get Recommendation</button>
+    <button onclick="getData()">Get Recommendation</button>
 
     <div id="result">
         <div class="top" id="topResult"></div>
@@ -98,7 +98,6 @@
 </div>
 
 <script>
-<script>
 async function getData() {
   let interest = document.getElementById("interest").value;
   let level = document.getElementById("level").value;
@@ -106,13 +105,17 @@ async function getData() {
 
   let url = `https://coding-recommender.onrender.com/predict?interest=${interest}&level=${level}&goal=${goal}`;
 
-  let res = await fetch(url);
-  let data = await res.json();
+  try {
+    let res = await fetch(url);
+    let data = await res.json();
 
-  document.getElementById("result").innerText =
-    data.top_1.language + " (" + data.top_1.confidence + "%)";
+    document.getElementById("result").innerText =
+      data.top_1.language + " (" + data.top_1.confidence + "%)";
+  } catch (error) {
+    console.error(error);
+    document.getElementById("result").innerText = "Error loading data";
+  }
 }
 </script>
-
 </body>
 </html>
