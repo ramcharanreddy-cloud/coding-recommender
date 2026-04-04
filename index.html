@@ -70,24 +70,24 @@
 <div class="container">
     <h1>🚀 Coding Recommender</h1>
 
-   <select id="interest">
-  <option value="AI">AI</option>
-  <option value="Web">Web</option>
-  <option value="App">App</option>
-  <option value="Competitive">Competitive</option>
-</select>
+    <select id="interest">
+        <option value="AI">AI</option>
+        <option value="Web">Web</option>
+        <option value="App">App</option>
+        <option value="Competitive">Competitive</option>
+    </select>
 
-<select id="level">
-  <option value="Beginner">Beginner</option>
-  <option value="Intermediate">Intermediate</option>
-  <option value="Advanced">Advanced</option>
-</select>
+    <select id="level">
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+    </select>
 
-<select id="goal">
-  <option value="Learning">Learning</option>
-  <option value="Job">Job</option>
-  <option value="Competitive">Competitive</option>
-</select>
+    <select id="goal">
+        <option value="Learning">Learning</option>
+        <option value="Job">Job</option>
+        <option value="Competitive">Competitive</option>
+    </select>
 
     <button onclick="getData()">Get Recommendation</button>
 
@@ -99,23 +99,32 @@
 
 <script>
 async function getData() {
-  let interest = document.getElementById("interest").value;
-  let level = document.getElementById("level").value;
-  let goal = document.getElementById("goal").value;
+    let interest = document.getElementById("interest").value;
+    let level = document.getElementById("level").value;
+    let goal = document.getElementById("goal").value;
 
-  let url = `https://coding-recommender.onrender.com/predict?interest=${interest}&level=${level}&goal=${goal}`;
+    let url = `https://coding-recommender.onrender.com/predict?interest=${interest}&level=${level}&goal=${goal}`;
 
-  try {
-    let res = await fetch(url);
-    let data = await res.json();
+    try {
+        let res = await fetch(url);
+        let data = await res.json();
 
-    document.getElementById("result").innerText =
-      data.top_1.language + " (" + data.top_1.confidence + "%)";
-  } catch (error) {
-    console.error(error);
-    document.getElementById("result").innerText = "Error loading data";
-  }
+        document.getElementById("result").style.display = "block";
+
+        document.getElementById("topResult").innerText =
+            "🔥 " + data.top_1.language + " (" + data.top_1.confidence + "%)";
+
+        document.getElementById("secondResult").innerText =
+            "⭐ " + data.top_2.language + " (" + data.top_2.confidence + "%)";
+
+    } catch (error) {
+        console.error(error);
+        document.getElementById("result").style.display = "block";
+        document.getElementById("topResult").innerText = "Error loading data";
+        document.getElementById("secondResult").innerText = "";
+    }
 }
 </script>
+
 </body>
 </html>
