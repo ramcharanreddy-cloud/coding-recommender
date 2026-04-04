@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Coding Recommender</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #1e1e2f, #121212);
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .container {
+            background: #1f1f2e;
+            padding: 30px;
+            border-radius: 15px;
+            width: 350px;
+            margin: auto;
+            box-shadow: 0 0 20px rgba(0,255,204,0.3);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        button {
+            background: #00ffcc;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #00ddb3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #121212;
+            display: none;
+        }
+
+        .top {
+            font-size: 20px;
+            color: #00ffcc;
+        }
+
+        .second {
+            font-size: 16px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🚀 Coding Recommender</h1>
+
+   <select id="interest">
+  <option value="AI">AI</option>
+  <option value="Web">Web</option>
+  <option value="App">App</option>
+  <option value="Competitive">Competitive</option>
+</select>
+
+<select id="level">
+  <option value="Beginner">Beginner</option>
+  <option value="Intermediate">Intermediate</option>
+  <option value="Advanced">Advanced</option>
+</select>
+
+<select id="goal">
+  <option value="Learning">Learning</option>
+  <option value="Job">Job</option>
+  <option value="Competitive">Competitive</option>
+</select>
+
+    <button onclick="getRecommendation()">Get Recommendation</button>
+
+    <div id="result">
+        <div class="top" id="topResult"></div>
+        <div class="second" id="secondResult"></div>
+    </div>
+</div>
+
+<script>
+<script>
+async function getData() {
+  let interest = document.getElementById("interest").value;
+  let level = document.getElementById("level").value;
+  let goal = document.getElementById("goal").value;
+
+  let url = `http://127.0.0.1:8000/predict?interest=${interest}&level=${level}&goal=${goal}`;
+
+  let res = await fetch(url);
+  let data = await res.json();
+
+  document.getElementById("result").innerText =
+    data.top_1.language + " (" + data.top_1.confidence + "%)";
+}
+</script>
+
+</body>
+</html>
