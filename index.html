@@ -2,8 +2,105 @@
 <html>
 <head>
     <title>AI Coding Recommender</title>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./script.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .container {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 20px;
+            width: 380px;
+            margin: auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 25px rgba(0,255,204,0.3);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+        }
+
+        select {
+            background: #1f1f2e;
+            color: white;
+        }
+
+        button {
+            background: linear-gradient(45deg, #00ffcc, #00c3ff);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        #loading {
+            display: none;
+            margin-top: 15px;
+        }
+
+        #result {
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .card {
+            background: #181818;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,255,204,0.2);
+        }
+
+        .top {
+            font-size: 22px;
+            color: #00ffcc;
+        }
+
+        .second {
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #00ffcc;
+            color: black;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -42,7 +139,46 @@
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+function getIcon(lang) {
+    if (lang === "Python") return "🐍";
+    if (lang === "Java") return "☕";
+    if (lang === "C++") return "💻";
+    if (lang === "JavaScript") return "⚡";
+    return "💡";
+}
+
+async function getData() {
+    let interest = document.getElementById("interest").value;
+    let level = document.getElementById("level").value;
+    let goal = document.getElementById("goal").value;
+
+    let url = `https://coding-recommender.onrender.com/predict?interest=${interest}&level=${level}&goal=${goal}`;
+
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("result").style.display = "none";
+
+    try {
+        let res = await fetch(url);
+        let data = await res.json();
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("result").style.display = "block";
+
+        document.getElementById("topResult").innerHTML =
+            `${getIcon(data.top_1.language)} <b>${data.top_1.language}</b>
+             <span class="badge">${data.top_1.confidence}%</span>`;
+
+        document.getElementById("secondResult").innerHTML =
+            `${getIcon(data.top_2.language)} ${data.top_2.language}
+             <span class="badge">${data.top_2.confidence}%</span>`;
+
+    } catch (error) {
+        console.error(error);
+        document.getElementById("loading").innerText = "❌ Error loading data";
+    }
+}
+</script>
 
 </body>
 </html>
