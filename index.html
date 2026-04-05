@@ -5,20 +5,21 @@
 
     <style>
         body {
-            font-family: Arial;
-            background: linear-gradient(135deg, #1e1e2f, #121212);
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: white;
             text-align: center;
-            padding-top: 80px;
+            padding-top: 60px;
         }
 
         .container {
-            background: #1f1f2e;
+            background: rgba(255,255,255,0.05);
             padding: 30px;
-            border-radius: 15px;
-            width: 350px;
+            border-radius: 20px;
+            width: 380px;
             margin: auto;
-            box-shadow: 0 0 20px rgba(0,255,204,0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 25px rgba(0,255,204,0.3);
         }
 
         h1 {
@@ -27,34 +28,45 @@
 
         select, button {
             width: 90%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: none;
             font-size: 16px;
         }
 
+        select {
+            background: #1f1f2e;
+            color: white;
+        }
+
         button {
-            background: #00ffcc;
+            background: linear-gradient(45deg, #00ffcc, #00c3ff);
             color: black;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
         }
 
         button:hover {
-            background: #00ddb3;
+            transform: scale(1.05);
+        }
+
+        #loading {
+            display: none;
+            margin-top: 15px;
         }
 
         #result {
             margin-top: 20px;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #121212;
             display: none;
         }
 
         .top {
-            font-size: 20px;
+            font-size: 22px;
             color: #00ffcc;
         }
 
@@ -91,6 +103,8 @@
 
     <button onclick="getData()">Get Recommendation</button>
 
+    <div id="loading">⏳ Getting recommendation...</div>
+
     <div id="result">
         <div class="top" id="topResult"></div>
         <div class="second" id="secondResult"></div>
@@ -105,10 +119,14 @@ async function getData() {
 
     let url = `https://coding-recommender.onrender.com/predict?interest=${interest}&level=${level}&goal=${goal}`;
 
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("result").style.display = "none";
+
     try {
         let res = await fetch(url);
         let data = await res.json();
 
+        document.getElementById("loading").style.display = "none";
         document.getElementById("result").style.display = "block";
 
         document.getElementById("topResult").innerText =
@@ -119,9 +137,7 @@ async function getData() {
 
     } catch (error) {
         console.error(error);
-        document.getElementById("result").style.display = "block";
-        document.getElementById("topResult").innerText = "Error loading data";
-        document.getElementById("secondResult").innerText = "";
+        document.getElementById("loading").innerText = "❌ Error loading data";
     }
 }
 </script>
