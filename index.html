@@ -138,6 +138,7 @@
         </div>
     </div>
 </div>
+<div id="explanation" style="margin-top:10px; font-size:14px; color:#ccc;"></div>
 
 <script>
 function getIcon(lang) {
@@ -146,6 +147,13 @@ function getIcon(lang) {
     if (lang === "C++") return "💻";
     if (lang === "JavaScript") return "⚡";
     return "💡";
+}
+function getExplanation(lang) {
+    if (lang === "Python") return "Great for AI, data science, and beginners.";
+    if (lang === "Java") return "Strong for enterprise applications and job opportunities.";
+    if (lang === "C++") return "Best for competitive programming and performance-critical apps.";
+    if (lang === "JavaScript") return "Perfect for web development and full-stack projects.";
+    return "Good general-purpose language.";
 }
 
 async function getData() {
@@ -157,7 +165,8 @@ async function getData() {
 
     document.getElementById("loading").style.display = "block";
     document.getElementById("result").style.display = "none";
-
+document.getElementById("explanation").innerText =
+    "💡 Why? " + getExplanation(data.top_1.language);
     try {
         let res = await fetch(url);
         let data = await res.json();
