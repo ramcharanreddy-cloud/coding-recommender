@@ -53,11 +53,15 @@ button:hover {
 
 #result {
     margin-top: 20px;
-    padding: 15px;
-    border-radius: 12px;
-    background: #121212;
     display: none;
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.card {
+    background: #181818;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,255,204,0.2);
 }
 
 .top {
@@ -68,6 +72,16 @@ button:hover {
 .second {
     font-size: 16px;
     color: #aaa;
+}
+
+.badge {
+    display: inline-block;
+    background: #00ffcc;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: 8px;
 }
 
 @keyframes fadeIn {

@@ -2,8 +2,46 @@
 <html>
 <head>
     <title>AI Coding Recommender</title>
-<link rel="stylesheet" href="styles.css">
-    
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🚀 Coding Recommender</h1>
+
+    <select id="interest">
+        <option value="AI">AI</option>
+        <option value="Web">Web</option>
+        <option value="App">App</option>
+        <option value="Competitive">Competitive</option>
+    </select>
+
+    <select id="level">
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+    </select>
+
+    <select id="goal">
+        <option value="Learning">Learning</option>
+        <option value="Job">Job</option>
+        <option value="Competitive">Competitive</option>
+    </select>
+
+    <button onclick="getData()">Get Recommendation</button>
+
+    <div id="loading">⏳ Processing your inputs...</div>
+
+    <div id="result">
+        <div class="card">
+            <div class="top" id="topResult"></div>
+            <div class="second" id="secondResult"></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
