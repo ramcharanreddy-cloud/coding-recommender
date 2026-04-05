@@ -169,7 +169,11 @@ document.getElementById("explanation").innerText =
     "💡 Why? " + getExplanation(data.top_1.language);
     try {
         let res = await fetch(url);
-        let data = await res.json();
+let data = await res.json();
+
+if (!data || !data.top_1) {
+    throw new Error("Invalid response");
+}
 
         document.getElementById("loading").style.display = "none";
         document.getElementById("result").style.display = "block";
@@ -183,9 +187,9 @@ document.getElementById("explanation").innerText =
              <span class="badge">${data.top_2.confidence}%</span>`;
 
     } catch (error) {
-        console.error(error);
-        document.getElementById("loading").innerText = "❌ Error loading data";
-    }
+    console.error(error);
+    document.getElementById("loading").innerText = "⚠️ Server waking up... try again";
+}
 }
 </script>
 
